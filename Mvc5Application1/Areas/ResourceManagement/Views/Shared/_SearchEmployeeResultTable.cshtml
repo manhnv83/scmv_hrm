@@ -1,0 +1,201 @@
+﻿@using Mvc5Application1.Data.Model
+@using Mvc5Application1.Data.Model.ResourceManagement
+@using PagedList
+@using PagedList.Mvc
+
+@model  IPagedList<EmployeeSearchResult>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@if (Model.Count > 0)
+{
+    <div class="row content-box" style="margin-left: 0px;">
+        <div class="col-md-12 col-lg-12 col-sm-12">
+            <div class="tab-pane active table-responsive">
+                <table id="employee-results" class="table table-striped table-bordered table-condensed table-hover datatables dataTable no-footer dt-responsive nowrap bulk_action" cellspacing="0" style="width:100%">
+                    <thead>
+                        <tr role="row">
+                            <th class="center" style="width: 52px">Chọn</th>
+                            <th class="center @(ViewBag.SortBy != "Code" ? "" : ViewBag.SortOrder == "desc" ? "sorting_desc" : "sorting_asc")">
+                                @Ajax.ActionLink("Mã", "SearchEmployee",
+                                    new
+                                    {
+                                        page = 1,
+                                        sortOrder = ViewBag.SortOrder == "desc" ? "asc" : "desc",
+                                        sortBy = "Code",
+                                        code = ViewBag.Code,
+                                        fullName = ViewBag.FullName,
+                                        fullNameEnglish = ViewBag.FullNameEnglish,
+                                        homeTown = ViewBag.HomeTown,
+                                        birthDate = ViewBag.BirthDate
+                                    },
+                                    new AjaxOptions { UpdateTargetId = "EmployeeResultTable", HttpMethod = "GET" })
+                            </th>
+                            <th class="center @(ViewBag.SortBy != "FullName" ? "" : ViewBag.SortOrder == "desc" ? "sorting_desc" : "sorting_asc")">
+                                @Ajax.ActionLink("Họ tên", "SearchEmployee",
+                                new
+                                {
+                                    page = 1,
+                                    sortOrder = ViewBag.SortOrder == "desc" ? "asc" : "desc",
+                                    sortBy = "FullName",
+                                    code = ViewBag.Code,
+                                    fullName = ViewBag.FullName,
+                                    fullNameEnglish = ViewBag.FullNameEnglish,
+                                    homeTown = ViewBag.HomeTown,
+                                    birthDate = ViewBag.BirthDate
+                                },
+                                new AjaxOptions { UpdateTargetId = "EmployeeResultTable", HttpMethod = "GET" })
+                            </th>
+                            <th class="center @(ViewBag.SortBy != "FullNameEnglish" ? "" : ViewBag.SortOrder == "desc" ? "sorting_desc" : "sorting_asc")">
+                                @Ajax.ActionLink("Họ tên (Tiếng Anh)", "SearchEmployee",
+                                new
+                                {
+                                    page = 1,
+                                    sortOrder = ViewBag.SortOrder == "desc" ? "asc" : "desc",
+                                    sortBy = "FullNameEnglish",
+                                    code = ViewBag.Code,
+                                    fullName = ViewBag.FullName,
+                                    fullNameEnglish = ViewBag.FullNameEnglish,
+                                    homeTown = ViewBag.HomeTown,
+                                    birthDate = ViewBag.BirthDate
+                                },
+                                new AjaxOptions { UpdateTargetId = "EmployeeResultTable", HttpMethod = "GET" })
+                            </th>
+                            <th class="center @(ViewBag.SortBy != "HomeTown" ? "" : ViewBag.SortOrder == "desc" ? "sorting_desc" : "sorting_asc")">
+                                @Ajax.ActionLink("Quê quán", "SearchEmployee",
+                                new
+                                {
+                                    page = 1,
+                                    sortOrder = ViewBag.SortOrder == "desc" ? "asc" : "desc",
+                                    sortBy = "HomeTown",
+                                    code = ViewBag.Code,
+                                    fullName = ViewBag.FullName,
+                                    fullNameEnglish = ViewBag.FullNameEnglish,
+                                    homeTown = ViewBag.HomeTown,
+                                    birthDate = ViewBag.BirthDate
+                                },
+                                new AjaxOptions { UpdateTargetId = "EmployeeResultTable", HttpMethod = "GET" })
+                            </th>
+                            <th class="center @(ViewBag.SortBy != "BirthDate" ? "" : ViewBag.SortOrder == "desc" ? "sorting_desc" : "sorting_asc")">
+                                @Ajax.ActionLink("Ngày sinh", "SearchEmployee",
+                                    new
+                                    {
+                                        page = 1,
+                                        sortOrder = ViewBag.SortOrder == "desc" ? "asc" : "desc",
+                                        sortBy = "BirthDate",
+                                        code = ViewBag.Code,
+                                        fullName = ViewBag.FullName,
+                                        fullNameEnglish = ViewBag.FullNameEnglish,
+                                        homeTown = ViewBag.HomeTown,
+                                        birthDate = ViewBag.BirthDate
+                                    },
+                                    new AjaxOptions { UpdateTargetId = "EmployeeResultTable", HttpMethod = "GET" })
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var result in Model)
+                        {
+                            <tr role="row" class="odd">
+                                <td class="center"><input type="checkbox" id="@result.Id" class="flat"></td>
+                                <td class="center">
+                                    @result.Code
+                                </td>
+                                <td class="center">
+                                    @result.FullName
+                                </td>
+                                <td class="center">
+                                    @result.FullNameEnglish
+                                </td>
+                                <td class="center">
+                                    @result.HomeTown
+                                </td>
+                                <td class="center">
+                                    @if (result.BirthDate.HasValue)
+                                    {
+                                        @result.BirthDate.Value.ToString(CommonString.DateFormat)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <table id="pager" style="width: 100%;">
+                    <tr>
+                        <td>
+                            Showing @(Model.PageSize * (Model.PageNumber - 1) + 1) to @(Math.Min(Model.PageSize * Model.PageNumber, Model.TotalItemCount)) of @(Model.TotalItemCount) entries
+                        </td>
+                        <td style="float: right;">
+                            @Html.PagedListPager((IPagedList)Model,
+                                page => Url.Action("SearchEmployee",
+                                    new
+                                    {
+                                        code = ViewBag.Code,
+                                        fullName = ViewBag.FullName,
+                                        fullNameEnglish = ViewBag.FullNameEnglish,
+                                        homeTown = ViewBag.HomeTown,
+                                        birthDate = ViewBag.BirthDate,
+                                        sortOrder = ViewBag.SortOrder,
+                                        sortBy = ViewBag.SortBy,
+                                        page
+                                    }),
+                                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                                    new PagedListRenderOptions
+                                    {
+                                        LinkToPreviousPageFormat = "Previous",
+                                        LinkToNextPageFormat = "Next",
+                                        LinkToFirstPageFormat = "First",
+                                        LinkToLastPageFormat = "Last",
+                                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                                        DisplayEllipsesWhenNotShowingAllPageNumbers = true
+                                    },
+                                    new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "EmployeeResultTable" }
+
+                                    ))
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <button id="btnSelectEmployee" class="btn btn-primary">Chọn xem</button>
+            <button id="btnUpdateEmployee" class="btn btn-primary">Cập nhật</button>
+        </div>
+    </div>
+}
+else
+{
+    <div class="table-no-content center validation-summary-errors">
+        <div><h4>No Employee record found</h4></div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    $(function () {
+        var deleteEmployeeUrl = '@Url.Action("DeleteEmployee", "Individual", new { @area= "ResourceManagement" })';
+        var confirmMessage = 'Are you sure you want to delete this employee?';
+        var deleteSuccessMessage = 'Employee deleted successfully.';
+        var deleteFailMessage = 'You cannot delete this employee which has relate to other resource.';
+        EmployeeScript.doDeleteEmployeeConfirm(deleteEmployeeUrl, confirmMessage, deleteSuccessMessage, deleteFailMessage);
+
+        $(document).on("click", "#btnSelectEmployee", function () {
+            var employeeId = $('input.flat:checked').attr("id");
+            window.location.href = '/ResourceManagement/Individual/View?id=' + employeeId;
+        });
+
+        $(document).on("click", "#btnUpdateEmployee", function () {
+            var employeeId = $('input.flat:checked').attr("id");
+            window.location.href = '/ResourceManagement/Individual/Edit?id=' + employeeId;
+        });
+
+        $('input.flat').on('change', function () {
+            $('input.flat').not(this).prop('checked', false);
+        });
+    });
+</script>

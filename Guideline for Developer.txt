@@ -1,0 +1,34 @@
++ MS Win10 Pro
++ MS VS 2013 Pro Update 5
++ MS SQL Server 2014 (RTM-CU14) Developer Edition (64-bit)
++ Khi tao 4 columns CreatedBy, CreatedDate, ModifiedBy, ModifiedDate trong DB can luu y la DataType phai giong nhu trong interface ITrackableEntity
++ Bootstrap free template: Gentellela Alela!
+    GitHub: https://github.com/puikinsh/gentelella
+	  + Form: https://raw.githubusercontent.com/puikinsh/gentelella/master/production/form.html
+	  + Form Advanced: https://raw.githubusercontent.com/puikinsh/gentelella/master/production/form_advanced.html
+    Intro: https://colorlib.com/polygon/gentelella/form.html
+
+
++ 1) Text control: Name, Text
+----------------------------------------------------------------------------------------------------
+<div class="item form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
+        Name <span class="required">*</span>
+    </label>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text" style="background-image: url(); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+    </div>
+</div>
+----------------------------------------------------------------------------------------------------
+
++ 2) Button control: Submit, Cancel
+<div class="form-group">
+    <div class="col-md-6 col-md-offset-3">
+        <button type="submit" class="btn btn-primary">Cancel</button>
+        <button id="send" type="submit" class="btn btn-success">Submit</button>
+    </div>
+</div>
+
++ 3) DatePicker
++ 4) Breadcrumb
++ 5) Paging

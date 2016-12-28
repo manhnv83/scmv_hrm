@@ -1,0 +1,17 @@
+﻿@model Mvc5Application1.Extensions.HtmlStringModel
+
+<div class="form-group">
+    <label class="col-md-4">@Model.Label</label>
+    <div class="col-md-6">
+        <div class="table-bordered overflow-y-78">
+           @if (Model != null && Model.Value != null && Model.Value.Count > 0)
+           {
+               foreach (var displayText in Model.Value)
+               {
+                    <div class="padding-left-5"><span>@displayText</span></div>
+               }
+           }
+        </div>
+    </div>
+</div>
+

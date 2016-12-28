@@ -1,0 +1,202 @@
+﻿@using Mvc5Application1.Data.Model
+@model hrm_t_employee_base
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("SaveBasicInformation", "Individual", FormMethod.Post, new { @id = "formBasicInformation", @novalidate = "", @class = "form-horizontal form-label-left" }))
+{
+    @Html.AntiForgeryToken()
+    <span class="section">Cơ bản</span>
+    <!-- fullName -->
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fullName">
+            Họ tên <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input value="@Model.maiden_name" id="fullName" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2"
+                   name="fullName" placeholder="e.g Nguyễn Văn An" required="required" type="text">
+        </div>
+    </div>
+    <!-- /fullName -->
+    <!-- fullNameEnglish -->
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fullNameEnglish">
+            Họ tên (tiếng Anh)
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input value="@Model.maiden_name_eng" id="fullNameEnglish" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2"
+                   name="fullNameEnglish" placeholder="e.g Jon Doe" type="text">
+        </div>
+    </div>
+    <!-- /fullNameEnglish -->
+    <!-- gender -->
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender">
+            Giới tính
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <select class="form-control" id="gender" name="gender" gender="@Model.sex_div">
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+        </div>
+    </div>
+    <!-- /gender -->
+    <!-- bloodGroup -->
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bloodGroup">
+            Nhóm máu
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <select class="form-control" id="bloodGroup" name="bloodGroup" bloodgroup="@Model.blood_type_div">
+                <option>Unknow</option>
+                <option>A</option>
+                <option>B</option>
+                <option>O</option>
+                <option>AB</option>
+            </select>
+        </div>
+    </div>
+    <!-- /bloodGroup -->
+    <!-- homeTown -->
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="homeTown">
+            Quê quán
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <textarea id="homeTown" class="form-control" name="homeTown" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.." data-parsley-validation-threshold="10">@Model.hometown_name</textarea>
+        </div>
+    </div>
+    <!-- /homeTown -->
+    <!-- dateOfBirth -->
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+            Ngày sinh
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input value="@Model.birth_date.Value.ToString(CommonString.DateFormat)" id="dateOfBirth" name="dateOfBirth" class="datepicker form-control col-md-7 col-xs-12 active" type="text">
+        </div>
+    </div>
+    <!-- /dateOfBirth -->
+    <!-- Avatar -->
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+            Ảnh đại diện
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="btn-group">
+                <label class="btn btn-primary btn-upload" for="fileImport" title="Upload image file">
+                    <input class="sr-only" id="fileImport" name="fileImport" accept="image/*" type="file">
+                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="Import image with Blob URLs">
+                        <span class="fa fa-upload"></span>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <!-- /Avatar -->
+    <!-- HR -->
+    <div class="ln_solid"></div>
+    <!-- /HR -->
+    <div class="form-group">
+        <div class="col-md-6 col-md-offset-3">
+            <button type="reset" class="btn btn-primary">Thiết lập lại</button>
+            <button id="submitBtn" type="submit" class="btn btn-success">Cập nhật</button>
+        </div>
+    </div>
+}
+
+<script>
+
+    $(window).on("load", function () {
+        var bloodgroup = $('#bloodGroup').attr("bloodgroup");
+        var gender = $('#gender').attr("gender");
+        $('select[name="gender"]').val(gender);
+        $('select[name="bloodGroup"]').val(bloodgroup);
+    });
+
+    $(function () {
+        var date = new Date();
+        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+        $('#dateOfBirth').datepicker({ format: "dd/mm/yyyy", autoclose: true });
+
+        $('#dateOfBirth').datepicker('setDate', today);
+    });
+
+    $(function () {
+        $(document).on("click", "#submitBtn", function (e) {
+            e.preventDefault();
+            //window.alert('hello');
+
+            // Reset notification
+            //$('#notification-bar').text('');
+
+            var urlAction = $('#formBasicInformation').attr("action");
+
+            var formData = new FormData();
+
+            // Add value from Html.AntiForgeryToken()
+            var formDataArray = $('#formBasicInformation').serializeArray();
+            for (var i = 0; i < formDataArray.length; i++) {
+                var formDataItem = formDataArray[i];
+                console.log(formDataItem);
+                formData.append(formDataItem.name, formDataItem.value);
+            }
+
+            formData.append("maiden_name", $('#fullName').val());
+            formData.append("maiden_name_eng", $('#fullNameEnglish').val());
+            formData.append("sex_div", $('#gender').val());
+            formData.append("blood_type_div", $('#bloodGroup').val());
+            formData.append("hometown_name", $('#homeTown').val());
+            formData.append("birth_date", $('#dateOfBirth').val());
+
+            // Avatar
+            var file = document.getElementById("fileImport").files[0];
+            formData.append("fileImport", file);
+
+            $("#submitBtn").prop("disabled", true); // Before send AJAX request
+
+            //debugger;
+
+            $.ajax({
+                type: "POST",
+                url: urlAction,
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    //debugger;
+                    $("#divProcessing").show();
+                },
+                complete: function () {
+                    //debugger;
+                    $("#divProcessing").hide();
+                    $("#submitBtn").prop("disabled", false); // After send AJAX request
+                },
+                success: function (result) {
+                    //debugger;
+                    if (!result.Success) {
+                        //$('#notification-bar').text('Save successfully');
+                        $("#notification-bar").text(result.Message);
+
+                        $("#fullName").focus();
+                        $("#fullName").select();
+                    }
+                    else {
+                        //window.location.replace(result.ReturnUrl);
+                        window.location.href = result.ReturnUrl;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    //debugger;
+                    //$('#notification-bar').text('An error occurred');
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,27 @@
+﻿@model Mvc5Application1.Extensions.EntryModel
+
+<div class="form-group">
+    <span class="col-md-4 control-label">@Model.Label</span>
+    <div class="col-md-6">
+        @if (Model.Required)
+        {
+            <div class="input-group followed">
+                @RenderInput()
+            </div>
+            <span class="required-icon"></span>
+        }
+        else
+        {
+            <div class="input-group">
+                @RenderInput()
+            </div>
+        }
+        <div class="val-message-area">@Model.ValidationMessage</div>
+    </div>
+</div>
+
+@helper RenderInput()
+{
+    @Model.Input
+    <span class="input-group-addon add-on"><img id="@(Model.Command + Model.PropertyName)" src="@Url.Content("~/Images/icons/" + @Model.Command + ".png")" /></span>
+}

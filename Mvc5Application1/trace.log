@@ -1,0 +1,145 @@
+----------------------------------------
+Timestamp: 12/25/2016 5:16:11 PM
+
+Message: The required anti-forgery form field "__RequestVerificationToken" is not present.
+
+Category: Information
+
+Priority: -1
+
+EventId: 1
+
+Severity: Information
+
+Title:
+
+Machine: MANHNGUYENV
+
+App Domain: /LM/W3SVC/2/ROOT-1-131271591888604982
+
+ProcessId: 24272
+
+Process Name: C:\Program Files (x86)\IIS Express\iisexpress.exe
+
+Thread Name: 
+
+Win32 ThreadId:20856
+
+Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 12/25/2016 5:17:12 PM
+
+Message: The required anti-forgery form field "__RequestVerificationToken" is not present.
+
+Category: Information
+
+Priority: -1
+
+EventId: 1
+
+Severity: Information
+
+Title:
+
+Machine: MANHNGUYENV
+
+App Domain: /LM/W3SVC/2/ROOT-1-131271597981019248
+
+ProcessId: 5772
+
+Process Name: C:\Program Files (x86)\IIS Express\iisexpress.exe
+
+Thread Name: 
+
+Win32 ThreadId:25576
+
+Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 12/25/2016 5:30:59 PM
+
+Message: The required anti-forgery form field "__RequestVerificationToken" is not present.
+
+Category: Information
+
+Priority: -1
+
+EventId: 1
+
+Severity: Information
+
+Title:
+
+Machine: MANHNGUYENV
+
+App Domain: /LM/W3SVC/2/ROOT-1-131271606217908006
+
+ProcessId: 12540
+
+Process Name: C:\Program Files (x86)\IIS Express\iisexpress.exe
+
+Thread Name: 
+
+Win32 ThreadId:12228
+
+Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 12/25/2016 5:32:02 PM
+
+Message: The required anti-forgery form field "__RequestVerificationToken" is not present.
+
+Category: Information
+
+Priority: -1
+
+EventId: 1
+
+Severity: Information
+
+Title:
+
+Machine: MANHNGUYENV
+
+App Domain: /LM/W3SVC/2/ROOT-1-131271606217908006
+
+ProcessId: 12540
+
+Process Name: C:\Program Files (x86)\IIS Express\iisexpress.exe
+
+Thread Name: 
+
+Win32 ThreadId:1960
+
+Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 12/25/2016 5:33:14 PM
+
+Message: The required anti-forgery form field "__RequestVerificationToken" is not present.
+
+Category: Information
+
+Priority: -1
+
+EventId: 1
+
+Severity: Information
+
+Title:
+
+Machine: MANHNGUYENV
+
+App Domain: /LM/W3SVC/2/ROOT-1-131271607719659165
+
+ProcessId: 264
+
+Process Name: C:\Program Files (x86)\IIS Express\iisexpress.exe
+
+Thread Name: 
+
+Win32 ThreadId:17016
+
+Extended Properties: 
+----------------------------------------

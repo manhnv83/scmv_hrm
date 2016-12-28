@@ -1,0 +1,150 @@
+﻿@model Mvc5Application1.Areas.ResourceManagement.ViewModels.SearchEmployeeViewModel
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/Employee/EmployeeScript.js"></script>
+
+@Html.Partial("_LoadingPartial")
+
+<form id="searchEmployeeForm" method="POST" class="form-horizontal">
+    <span class="section">Tìm kiếm nhân viên</span>
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">
+            Mã nhân viên
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input id="code" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2"
+                   name="code" placeholder="" type="text">
+        </div>
+    </div>
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fullName">
+            Họ tên
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input id="fullName" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2"
+                   name="fullName" placeholder="" type="text">
+        </div>
+    </div>
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fullNameEnglish">
+            Họ tên (Tiếng Anh)
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input id="fullNameEnglish" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2"
+                   name="fullNameEnglish" placeholder="" type="text">
+        </div>
+    </div>
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="homeTown">
+            Quê quán
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <input id="homeTown" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2"
+                   name="homeTown" placeholder="" type="text">
+        </div>
+    </div>
+    <div class="item form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="birthDate">
+            Ngày sinh
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="input-group date">
+                <input type="text" class="datepicker form-control col-md-7 col-xs-12 active" id="birthDate" name="birthDate">
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback col-md-offset-3">
+        <button id="btnSearchEmployee" type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <button id="btnAddEmployee" class="btn btn-primary">Thêm mới</button>
+    </div>
+</form>
+<span class="section">Kết quả tìm kiếm</span>
+<div id="employee-result-message"></div>
+<div id="EmployeeResultTable">
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        var date = new Date();
+        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+        $('#birthDate').datepicker({ format: "dd/mm/yyyy", autoclose: true });
+
+        $('#birthDate').datepicker('setDate', today);
+    });
+
+    $(document).ready(function () {
+
+        $.validator.unobtrusive.parse($('#searchEmployeeForm'));
+
+        $('#searchEmployeeForm').on('submit', function (evt) {
+
+            evt.preventDefault();
+
+            $('#btnSearchEmployee').prop("disabled", true);
+
+            if (!$('#searchEmployeeForm').valid()) {
+                $('#btnSearchEmployee').prop("disabled", false);
+                return;
+            }
+
+            $("#divProcessing").show();
+
+            $.ajax({
+                async: true,
+                url: '@Url.Action("SearchEmployee", "Individual", new { area = "ResourceManagement" })',
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (result) {
+                    //debugger;
+                    $('#btnSearchEmployee').prop("disabled", false);
+                    $("#divProcessing").hide();
+                    if (result.Success == null) {
+                        //debugger;
+                        $('#employee-result-message').hide();
+                        $('#EmployeeResultTable').html(result); // assuming response is HTML
+                    } else {
+                        //debugger;
+                        if (!result.Success) {
+                            //debugger;
+                            $('#employee-result-message').show();
+                            $('#employee-result-message').html(result.Message);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    //debugger;
+                    $('#btnSearchEmployee').prop("disabled", false);
+                    $("#divProcessing").hide();
+                }
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $(document).on("click", "#btnAddEmployee", function () {
+            window.location.href = '/ResourceManagement/Individual/Create';
+        });
+    });
+
+    $(document).ready(function () {
+        $("#employee-results tbody tr td").on('click', 'a[class="delete-item"]', function (evt) {
+            evt.preventDefault();
+            var itemid = $(this).attr('itemid');
+            $('#btnDeleteItem').attr('itemid', itemid);
+            $('#btnDeleteItem').click();
+        });
+    });
+</script>

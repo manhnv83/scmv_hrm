@@ -1,0 +1,11 @@
+﻿@model Mvc5Application1.Extensions.LinkModel
+
+<div class="form-group">
+    <span class="col-md-4 control-label">@Model.Label</span>
+    <span class="col-md-6" style="text-decoration:underline">
+        @if (!string.IsNullOrEmpty(@Model.Url.ToString()))
+        {
+            <a href="@Model.Url" style="color: blue; text-decoration: underline" target="_blank" title="@Model.Url">Click here</a>
+        }  
+    </span>
+</div>

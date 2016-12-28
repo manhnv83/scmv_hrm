@@ -1,0 +1,24 @@
+﻿@model Mvc5Application1.Extensions.EntryModel
+
+<div class="form-group">
+    <span class="col-md-4 control-label">@Model.Label</span>
+    <div class="col-md-6">
+        @if (Model.Required)
+        {
+            @Model.Input
+            <span class="required-icon"></span>
+        }
+        else
+        {
+            <div class="row">@Model.Input</div>
+        }
+        <div class="val-message-area">@Model.ValidationMessage</div>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.JsScript))
+{
+    <script type="text/javascript">
+        @Html.Raw(@Model.JsScript)
+    </script>
+}

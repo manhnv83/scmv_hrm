@@ -1,0 +1,37 @@
+﻿@model Mvc5Application1.Extensions.EntryModel
+
+<div class="form-group">
+    <div class="col-md-6">
+        @if (Model.Required)
+        {
+            <div class="input-group input-append date followed">
+                @RenderInput()
+            </div>
+            <span class="required-icon"></span>
+        }
+        else
+        {
+            <div class="input-group input-append date">
+                @RenderInput()
+            </div>
+        }
+        <div class="val-message-area">@Model.ValidationMessage</div>
+    </div>
+</div>
+
+@helper RenderInput()
+{
+    @Model.Input
+    <span class="input-group-addon add-on"><img id="@(Model.Command + Model.ControlId)" src="@Url.Content("~/Images/icons/" + @Model.Command + ".png")" /></span>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#@(Model.Command + Model.ControlId)").click(function () {
+            if ($("#@Model.ControlId").is(':enabled')) {
+                $('#@Model.ControlId').datepicker('show');
+            }
+        });
+        $('#@Model.ControlId').datepicker({ autoclose: true, format: 'dd-M-yyyy', todayHighlight: true });
+    });
+</script>
